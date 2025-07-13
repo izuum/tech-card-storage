@@ -1,15 +1,37 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Поиск карт</title>
+    <title>Поиск технологических карт</title>
 </head>
 <body>
     <h1>Поиск технологических карт</h1>
     <form method="GET" action="/cards/search">
         <label for="searchTerm">Критерий поиска (ФИО или инв. номер)</label><br>
-        <input type="text" id="searchTerm" name="searchTerm" placeholder="Введите ФИО или инв. номер" required /><br>
+        <input type="text" id="searchTerm" name="searchTerm" required/><br>
         <button type="submit">Найти</button>
     </form>
+
+    <div th:if="${resultCards != null && resultCards.size() > 0}">
+        <h2>Результат поиска:</h2>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Инвентарный номер ПК</th>
+                <th>ФИО пользователя</th>
+                <th>Пусть к файлу</th>
+            </tr>
+            <tr th:each="card : ${resultCards}">
+                <td th:text="${card.id}"></td>
+                <td th:text="${card.inventoryNumber}"></td>
+                <td th:text="${card.fullName}"></td>
+                <td th:text="${card.filePath}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div th:if="${resultCards == null || resultCards.size() == 0}">
+        <p>Ничего не найдено по данному критерию поиска.</p>
+    </div>
 </body>
 </html>
