@@ -7,38 +7,52 @@ import jakarta.persistence.*;
 public class TechnologyCard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    public String getInventoryNumber() {
-        return inventoryNumber;
+    @Column(name = "pc_inventory_number")
+    private String pcInventoryNumber;
+
+    @Column(name = "user_full_name")
+    private String userFullName;
+
+    @Column(name = "file_path")
+    private String filePath;
+
+    public TechnologyCard() {
     }
 
-    public void setInventoryNumber(String inventoryNumber) {
-        this.inventoryNumber = inventoryNumber;
+    public TechnologyCard(Long id, String pcInventoryNumber, String userFullName, String filePath){
+        this.id = id;
+        this.pcInventoryNumber = pcInventoryNumber;
+        this.userFullName = userFullName;
+        this.filePath = filePath;
+    }
+
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getInventoryNumber() {
+        return pcInventoryNumber;
+    }
+    public void setInventoryNumber(String pcInventoryNumber) {
+        this.pcInventoryNumber = pcInventoryNumber;
     }
 
     public String getFullName() {
-        return fullName;
+        return userFullName;
     }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFullName(String userFullName) {
+        this.userFullName = userFullName;
     }
 
     public String getFilePath() {
         return filePath;
     }
-
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
-
-    @Column(name = "pc_inventory_number")
-    private String inventoryNumber;
-
-    @Column(name = "user_full_name")
-    private String fullName;
-
-    @Column(name = "file_path")
-    private String filePath;
 }

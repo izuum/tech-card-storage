@@ -5,6 +5,7 @@ import com.example.tech_card_storage.repository.TechnologyCardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,15 +17,15 @@ public class TechnologyCardService {
         this.repository = repository;
     }
 
-    public List<TechnologyCard> searchByFullName(String name){
-        return repository.findByUserFullNameContainingIgnoreCase(name);
-    }
-
-    public List<TechnologyCard> searchByInventoryNumber(String number){
-        return repository.findByPcInventoryNumber(number);
-    }
-
     public void saveCard(TechnologyCard card){
         repository.save(card);
+    }
+
+    public List<TechnologyCard> searchByCriteria(String criteria){
+        List<TechnologyCard> results = new ArrayList<>();
+        results.addAll(repository.findByUserFullNameContainingIgnoreCase(criteria));
+        results.addAll(repository.findByPcInventoryNumber(criteria));
+
+        return results;
     }
 }
