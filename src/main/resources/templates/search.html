@@ -25,7 +25,9 @@
                 <td th:text="${card.id}"></td>
                 <td th:text="${card.inventoryNumber}"></td>
                 <td th:text="${card.fullName}"></td>
-                <td th:text="${card.filePath}"></td>
+                <td>
+                    <a th:href="@{'/files/' + ${card.filePath}}" target="_blank">Открыть фото тех карты</a>
+                </td>
             </tr>
         </table>
     </div>
