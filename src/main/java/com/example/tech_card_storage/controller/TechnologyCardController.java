@@ -45,8 +45,8 @@ public class TechnologyCardController {
             @RequestParam("fullName") String fullName
     ) throws IOException {
         if (!file.isEmpty()) {
-//            String filePath = "uploads/" + file.getOriginalFilename();
-            String filePath = "D:/upload-pics/" + file.getOriginalFilename();
+            String filePath = "uploads/" + file.getOriginalFilename();
+//            String filePath = "D:/upload-pics/" + file.getOriginalFilename();
             Files.write(Paths.get(filePath), file.getBytes());
 
             TechnologyCard card = new TechnologyCard(null, inventoryNumber, fullName, filePath);
@@ -59,8 +59,8 @@ public class TechnologyCardController {
 
     @GetMapping("/files/{filename:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String filename) throws MalformedURLException {
-//        Resource resource = new UrlResource("file:" + System.getProperty("user.dir") + "/uploads" + filename);
-        Resource resource = new UrlResource("file:D:/upload-pics/" + filename);
+        Resource resource = new UrlResource("file:" + System.getProperty("user.dir") + "/uploads" + filename);
+//        Resource resource = new UrlResource("file:D:/upload-pics/" + filename);
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_PNG)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
