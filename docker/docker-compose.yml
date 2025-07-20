@@ -4,11 +4,11 @@ services:
     restart: always
     shm_size: 128mb
     environment:
-      POSTGRES_DB: techcards
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: ${POSTGRES_URL}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - '5432:5432'
+      - "${POSTGRES_PORT}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       
