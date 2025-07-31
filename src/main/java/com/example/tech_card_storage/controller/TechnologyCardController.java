@@ -32,7 +32,11 @@ public class TechnologyCardController {
     @GetMapping("/search")
     public String performSearch(@RequestParam("searchTerm") String searchTerm, Model model) {
         List<TechnologyCard> resultCards = techCardService.searchByCriteria(searchTerm);
-        resultCards.forEach(card -> card.setFilePath(extractFilenamePath(card.getFilePath())));
+        resultCards.forEach(card -> {
+                    if (card.getFilePath() != null) {
+                        card.setFilePath(extractFilenamePath(card.getFilePath()));
+                    }
+                });
         model.addAttribute("resultCards", resultCards);
         return "search";
     }
@@ -58,14 +62,21 @@ public class TechnologyCardController {
 
     @GetMapping("/files/{filename:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String filename) throws MalformedURLException {
-        Resource resource = new UrlResource("file:" + System.getProperty("user.dir") + "/uploads" + filename);
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_PNG)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
+        try {
+            Resource resource = new UrlResource("file:" + System.getProperty("user.dir") + "/uploads/" + filename);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_PNG)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } catch (MalformedURLException e) {
+            throw new MalformedURLException("Invalid URL");
+        }
     }
 
-    private String extractFilenamePath(String filePath){
+    String extractFilenamePath(String filePath){
+        if (filePath == null){
+            return "";
+        }
         int lastSlashIndex = filePath.lastIndexOf('/');
         return filePath.substring(lastSlashIndex + 1);
     }
