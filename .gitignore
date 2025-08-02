@@ -19,7 +19,7 @@ target/
 *.iml
 *.ipr
 .env
-application-secret.yaml
+application-default.yml
 
 ### NetBeans ###
 /nbproject/private/

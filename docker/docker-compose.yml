@@ -4,11 +4,7 @@ services:
     restart: always
     shm_size: 128mb
     environment:
-      POSTGRES_DB: ${POSTGRES_URL}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    ports:
-      - "${POSTGRES_PORT}:5432"
+      SPRING_PROFILES_ACTIVE: default
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
