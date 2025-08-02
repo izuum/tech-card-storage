@@ -18,14 +18,14 @@ public class TechnologyCard {
     @Column(name = "file_path")
     private String filePath;
 
-    public TechnologyCard() {
-    }
-
     public TechnologyCard(Long id, String pcInventoryNumber, String userFullName, String filePath){
         this.id = id;
         this.pcInventoryNumber = pcInventoryNumber;
         this.userFullName = userFullName;
         this.filePath = filePath;
+    }
+
+    public TechnologyCard() {
     }
 
     public Long getId() {
