@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 @Controller
 @RequestMapping("/cards")
@@ -36,7 +37,7 @@ public class TechnologyCardController {
     }
 
     @GetMapping("/files/{filename:.+}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String filename) {
-        return downloadFile(filename);
+    public ResponseEntity<Resource> download(@PathVariable String filename) throws MalformedURLException {
+        return service.downloadFile(filename);
     }
 }
