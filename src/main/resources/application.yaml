@@ -1,7 +1,8 @@
 spring:
   application:
     name: tech-card-storage
-
+  profiles:
+    active: default
   datasource:
     url: ${POSTGRES_URL}
     username: ${POSTGRES_USER}
