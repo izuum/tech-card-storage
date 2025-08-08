@@ -51,7 +51,7 @@ public class TechnologyCardService {
         return "search";
     }
 
-    public String upload(
+    public boolean upload(
             MultipartFile file,
             String inventoryNumber,
             String fullName
@@ -63,16 +63,16 @@ public class TechnologyCardService {
             TechnologyCard card = new TechnologyCard(null, inventoryNumber, fullName, filePath);
             saveCard(card);
 
-            return "redirect:/search?searchTerm=" + fullName;
+            return true;
         }
-        return "redirect:/upload";
+        return false;
     }
 
     public ResponseEntity<Resource> downloadFile(String fileName) throws MalformedURLException {
         try {
             Resource resource = new UrlResource("file:" + System.getProperty("user.dir") + "/uploads/" + fileName);
             return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_JPEG)
+                    .contentType(MediaType.IMAGE_PNG)
                     .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
                     .body(resource);
         } catch (MalformedURLException e) {
