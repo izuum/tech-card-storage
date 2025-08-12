@@ -51,9 +51,9 @@ public class TechnologyCardServiceTest {
         when(mockFile.getBytes()).thenReturn("sample image bytes".getBytes());
         when(mockFile.getOriginalFilename()).thenReturn("sample.jpg");
 
-        String redirectUrl = service.upload(mockFile, "PC-123", "Иван Петров");
+        boolean redirectUrl = service.upload(mockFile, "PC-123", "Иван Петров");
 
-        assertEquals("redirect:/search?searchTerm=Иван Петров", redirectUrl);
+        assertEquals(true, redirectUrl);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class TechnologyCardServiceTest {
         Resource mockedResource = new UrlResource("file:" + System.getProperty("user.dir") + "/uploads/" + filename);
 
         ResponseEntity<Resource> expectedResponse = ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG)
+                .contentType(MediaType.IMAGE_PNG)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
                 .body(mockedResource);
 
