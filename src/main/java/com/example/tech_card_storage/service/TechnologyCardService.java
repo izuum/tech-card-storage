@@ -17,6 +17,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -56,7 +57,7 @@ public class TechnologyCardService {
             String inventoryNumber,
             String fullName
     ) throws IOException {
-        if (!file.isEmpty()) {
+        if (!file.isEmpty() && checkContentTypeOfUploadFile(file)) {
             String filePath = "uploads/" + file.getOriginalFilename();
             Files.write(Paths.get(filePath), file.getBytes());
 
@@ -86,5 +87,12 @@ public class TechnologyCardService {
         }
         int lastSlashIndex = filePath.lastIndexOf('/');
         return filePath.substring(lastSlashIndex + 1);
+    }
+
+    public boolean checkContentTypeOfUploadFile(MultipartFile file) {
+        if(!Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif").contains(file.getContentType())){
+            throw new IllegalArgumentException("Разрешена загрузка ТОЛЬКО фотографий/картинок!");
+        }
+        return true;
     }
 }
