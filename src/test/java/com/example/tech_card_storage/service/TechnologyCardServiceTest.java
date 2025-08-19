@@ -2,6 +2,7 @@ package com.example.tech_card_storage.service;
 
 import com.example.tech_card_storage.model.TechnologyCard;
 import com.example.tech_card_storage.repository.TechnologyCardRepository;
+import org.glassfish.jaxb.core.v2.TODO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,6 +13,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.validation.support.BindingAwareModelMap;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,15 +49,14 @@ public class TechnologyCardServiceTest {
 
     @Test
     public void testUploadCard() throws IOException {
-        MultipartFile mockFile = mock(MultipartFile.class);
-        when(mockFile.getBytes()).thenReturn("sample image bytes".getBytes());
-        when(mockFile.getOriginalFilename()).thenReturn("sample.jpg");
-
-        boolean redirectUrl = service.upload(mockFile, "PC-123", "Иван Петров");
+        MultipartFile validImage = new MockMultipartFile("file", "sample.jpg", "image/jpeg", "Sample Image Bytes".getBytes());
+        boolean redirectUrl = service.upload(validImage, "PC-123", "Иван Петров");
 
         assertEquals(true, redirectUrl);
     }
 
+    //TODO сделать тест с невалидным изображением
+    
     @Test
     public void testDownloadFile() throws MalformedURLException {
         String filename = "sample.jpg";
