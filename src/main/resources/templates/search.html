@@ -5,6 +5,7 @@
     <title>Поиск технологических карт</title>
 </head>
 <body>
+    <button onclick="location.href='/'" class="btn btn-primary">На главную</button>
     <h1>Поиск технологических карт</h1>
     <form method="GET" action="/cards/search">
         <label for="searchTerm">Критерий поиска (ФИО или инв. номер)</label><br>
@@ -19,14 +20,14 @@
                 <th>ID</th>
                 <th>Инвентарный номер ПК</th>
                 <th>ФИО пользователя</th>
-                <th>Пусть к файлу</th>
+                <th>Фото техкарты</th>
             </tr>
             <tr th:each="card : ${resultCards}">
                 <td th:text="${card.id}"></td>
                 <td th:text="${card.inventoryNumber}"></td>
                 <td th:text="${card.fullName}"></td>
                 <td>
-                    <a th:href="@{'/files/' + ${card.filePath}}" target="_blank">Открыть фото тех карты</a>
+                    <a th:href="@{'uploads/' + ${card.filePath}}" target="_blank">Открыть фото техкарты</a>
                 </td>
             </tr>
         </table>

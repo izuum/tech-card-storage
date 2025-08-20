@@ -5,6 +5,7 @@
     <title>Загрузка новой карты</title>
 </head>
 <body>
+    <button onclick="location.href='/'" class="btn btn-primary">На главную</button>
     <h1 th:text="${pageTitle}">Загрузить карту обслуживания</h1>
     <form enctype="multipart/form-data" method="POST" action="/cards/upload">
         <label for="inventoryNumber">Инвентарный номер ПК:</label>
@@ -14,9 +15,15 @@
         <input type="text" id="fullName" name="fullName" required /><br>
 
         <label for="file">Фотография карты:</label><br>
-        <input type="file" id="file" name="file" accept="image/*" required /><br>
+        <input type="file" id="file" name="file" accept="image/jpeg,image/png,image/gif" required /><br>
 
         <button type="submit">Загрузить карту</button>
+
+        <div th:if="${successMessage}">
+            <div class="alert alert-success" role="alert">
+                <span th:text="${successMessage}">Технологическая карта успешно загружена!</span>
+            </div>
+        </div>
     </form>
 </body>
 </html>

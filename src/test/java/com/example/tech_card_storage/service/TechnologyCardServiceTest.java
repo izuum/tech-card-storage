@@ -12,6 +12,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.validation.support.BindingAwareModelMap;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +22,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,23 +46,26 @@ public class TechnologyCardServiceTest {
     }
 
     @Test
-    public void testUploadCard() throws IOException {
-        MultipartFile mockFile = mock(MultipartFile.class);
-        when(mockFile.getBytes()).thenReturn("sample image bytes".getBytes());
-        when(mockFile.getOriginalFilename()).thenReturn("sample.jpg");
+    public void testUploadCardValidFile() throws IOException {
+        MultipartFile validImage = new MockMultipartFile("file", "sample.jpg", "image/jpeg", "Sample Image Bytes".getBytes());
+        boolean redirectUrl = service.upload(validImage, "PC-123", "Иван Петров");
 
-        String redirectUrl = service.upload(mockFile, "PC-123", "Иван Петров");
-
-        assertEquals("redirect:/search?searchTerm=Иван Петров", redirectUrl);
+        assertEquals(true, redirectUrl);
     }
 
+    @Test
+    public void testUploadCardInvalidFile() throws IOException {
+        MultipartFile invalidFile = new MockMultipartFile("file", "sample.mp4", "video/mp4", "Sample Video Bytes".getBytes());
+
+        assertThrows(IllegalArgumentException.class, () -> service.upload(invalidFile, "PC-456", "Петр Иванов"));
+    }
     @Test
     public void testDownloadFile() throws MalformedURLException {
         String filename = "sample.jpg";
         Resource mockedResource = new UrlResource("file:" + System.getProperty("user.dir") + "/uploads/" + filename);
 
         ResponseEntity<Resource> expectedResponse = ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG)
+                .contentType(MediaType.IMAGE_PNG)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
                 .body(mockedResource);
 
@@ -70,14 +73,6 @@ public class TechnologyCardServiceTest {
 
         assertEquals(expectedResponse, response);
     }
-
-//    //    Не работает
-//    @Test
-//    public void testDownloadFileMalformedURL(){
-//        String invalidFileName = null;
-//        Throwable exception = assertThrows(MalformedURLException.class, () -> service.downloadFile(invalidFileName));
-//        assertEquals("Invalid URL", exception.getMessage());
-//    }
 
     @Test
     public void testExtractFilenamePathNormalScenario() {

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -31,12 +32,16 @@ public class TechnologyCardController {
     public String uploadCard(
             @RequestPart("file") MultipartFile file,
             @RequestParam("inventoryNumber") String inventoryNumber,
-            @RequestParam("fullName") String fullName
-    ) throws IOException {
-        return service.upload(file, inventoryNumber, fullName);
+            @RequestParam("fullName") String fullName,
+            RedirectAttributes redirectAttributes) throws IOException {
+        if(service.upload(file, inventoryNumber, fullName)){
+            redirectAttributes.addFlashAttribute("successMessage", "Технологическая карта успешно загружена!");
+            return "redirect:/upload";
+        }
+        return "redirect:/error-page.html";
     }
 
-    @GetMapping("/files/{filename:.+}")
+    @GetMapping("/uploads/{filename:.+}")
     public ResponseEntity<Resource> download(@PathVariable String filename) throws MalformedURLException {
         return service.downloadFile(filename);
     }
