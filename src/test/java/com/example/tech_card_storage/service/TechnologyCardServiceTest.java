@@ -2,7 +2,6 @@ package com.example.tech_card_storage.service;
 
 import com.example.tech_card_storage.model.TechnologyCard;
 import com.example.tech_card_storage.repository.TechnologyCardRepository;
-import org.glassfish.jaxb.core.v2.TODO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,7 +22,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -48,15 +46,19 @@ public class TechnologyCardServiceTest {
     }
 
     @Test
-    public void testUploadCard() throws IOException {
+    public void testUploadCardValidFile() throws IOException {
         MultipartFile validImage = new MockMultipartFile("file", "sample.jpg", "image/jpeg", "Sample Image Bytes".getBytes());
         boolean redirectUrl = service.upload(validImage, "PC-123", "Иван Петров");
 
         assertEquals(true, redirectUrl);
     }
 
-    //TODO сделать тест с невалидным изображением
-    
+    @Test
+    public void testUploadCardInvalidFile() throws IOException {
+        MultipartFile invalidFile = new MockMultipartFile("file", "sample.mp4", "video/mp4", "Sample Video Bytes".getBytes());
+
+        assertThrows(IllegalArgumentException.class, () -> service.upload(invalidFile, "PC-456", "Петр Иванов"));
+    }
     @Test
     public void testDownloadFile() throws MalformedURLException {
         String filename = "sample.jpg";
@@ -71,14 +73,6 @@ public class TechnologyCardServiceTest {
 
         assertEquals(expectedResponse, response);
     }
-
-//    //    Не работает
-//    @Test
-//    public void testDownloadFileMalformedURL(){
-//        String invalidFileName = null;
-//        Throwable exception = assertThrows(MalformedURLException.class, () -> service.downloadFile(invalidFileName));
-//        assertEquals("Invalid URL", exception.getMessage());
-//    }
 
     @Test
     public void testExtractFilenamePathNormalScenario() {
