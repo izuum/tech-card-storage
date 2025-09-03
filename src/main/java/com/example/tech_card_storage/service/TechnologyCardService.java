@@ -23,12 +23,10 @@ import java.util.List;
 @Service
 public class TechnologyCardService {
     private final TechnologyCardRepository repository;
-    private final ImageTypeConfig imageTypeConfig;
 
     @Autowired
-    public TechnologyCardService(TechnologyCardRepository repository, ImageTypeConfig imageTypeConfig){
+    public TechnologyCardService(TechnologyCardRepository repository){
         this.repository = repository;
-        this.imageTypeConfig = imageTypeConfig;
     }
 
     public void saveCard(TechnologyCard card){
@@ -92,7 +90,7 @@ public class TechnologyCardService {
     }
 
     public boolean checkContentTypeOfUploadFile(MultipartFile file) {
-        if(!imageTypeConfig.getImageTypeList().contains(file.getContentType())){
+        if(!ImageTypeConfig.IMAGE_TYPE_LIST.contains(file.getContentType())){
             throw new IllegalArgumentException("Разрешена загрузка ТОЛЬКО фотографий/картинок!");
         }
         return true;
