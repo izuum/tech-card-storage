@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface TechnologyCardRepository extends JpaRepository<TechnologyCard, Long> {
     List<TechnologyCard> findByUserFullNameContainingIgnoreCase(String name);
-    List<TechnologyCard> findByPcInventoryNumber(String number);
+    List<TechnologyCard> findByPcInventoryNumberContaining(String number);
 }

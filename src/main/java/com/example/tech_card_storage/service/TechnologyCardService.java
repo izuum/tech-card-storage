@@ -36,7 +36,7 @@ public class TechnologyCardService {
     public List<TechnologyCard> searchByCriteria(String criteria){
         List<TechnologyCard> results = new ArrayList<>();
         results.addAll(repository.findByUserFullNameContainingIgnoreCase(criteria));
-        results.addAll(repository.findByPcInventoryNumber(criteria));
+        results.addAll(repository.findByPcInventoryNumberContaining(criteria));
 
         return results;
     }

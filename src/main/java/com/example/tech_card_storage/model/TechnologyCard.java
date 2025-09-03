@@ -1,7 +1,18 @@
 package com.example.tech_card_storage.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "technology_cards")
 public class TechnologyCard {
@@ -17,42 +28,4 @@ public class TechnologyCard {
 
     @Column(name = "file_path")
     private String filePath;
-
-    public TechnologyCard(Long id, String pcInventoryNumber, String userFullName, String filePath){
-        this.id = id;
-        this.pcInventoryNumber = pcInventoryNumber;
-        this.userFullName = userFullName;
-        this.filePath = filePath;
-    }
-
-    public TechnologyCard() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getInventoryNumber() {
-        return pcInventoryNumber;
-    }
-    public void setInventoryNumber(String pcInventoryNumber) {
-        this.pcInventoryNumber = pcInventoryNumber;
-    }
-
-    public String getFullName() {
-        return userFullName;
-    }
-    public void setFullName(String userFullName) {
-        this.userFullName = userFullName;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
 }
