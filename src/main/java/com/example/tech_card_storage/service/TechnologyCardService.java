@@ -2,6 +2,7 @@ package com.example.tech_card_storage.service;
 
 import com.example.tech_card_storage.model.TechnologyCard;
 import com.example.tech_card_storage.repository.TechnologyCardRepository;
+import com.example.tech_card_storage.service.config.ImageTypeConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -17,7 +18,6 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -90,7 +90,7 @@ public class TechnologyCardService {
     }
 
     public boolean checkContentTypeOfUploadFile(MultipartFile file) {
-        if(!Arrays.asList("image/png", "image/jpeg", "image/jpg", "image/gif").contains(file.getContentType())){
+        if(!ImageTypeConfig.IMAGE_TYPE_LIST.contains(file.getContentType())){
             throw new IllegalArgumentException("Разрешена загрузка ТОЛЬКО фотографий/картинок!");
         }
         return true;
