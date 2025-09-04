@@ -24,8 +24,8 @@
             </tr>
             <tr th:each="card : ${resultCards}">
                 <td th:text="${card.id}"></td>
-                <td th:text="${card.inventoryNumber}"></td>
-                <td th:text="${card.fullName}"></td>
+                <td th:text="${card.pcInventoryNumber}"></td>
+                <td th:text="${card.userFullName}"></td>
                 <td>
                     <a th:href="@{'uploads/' + ${card.filePath}}" target="_blank">Открыть фото техкарты</a>
                 </td>
