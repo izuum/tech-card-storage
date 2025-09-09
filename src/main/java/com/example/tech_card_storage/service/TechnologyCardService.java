@@ -61,7 +61,7 @@ public class TechnologyCardService {
             String filePath = "uploads/" + file.getOriginalFilename();
             Files.write(Paths.get(filePath), file.getBytes());
 
-            TechnologyCard card = new TechnologyCard(null, inventoryNumber, fullName, filePath);
+            TechnologyCard card = new TechnologyCard(null, null, inventoryNumber, fullName, filePath);
             saveCard(card);
 
             return true;

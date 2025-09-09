@@ -18,12 +18,14 @@
         <table border="1">
             <tr>
                 <th>ID</th>
+                <th>Дата</th>
                 <th>Инвентарный номер ПК</th>
                 <th>ФИО пользователя</th>
                 <th>Фото техкарты</th>
             </tr>
             <tr th:each="card : ${resultCards}">
                 <td th:text="${card.id}"></td>
+                <td th:text="${card.createdAt}"></td>
                 <td th:text="${card.pcInventoryNumber}"></td>
                 <td th:text="${card.userFullName}"></td>
                 <td>
