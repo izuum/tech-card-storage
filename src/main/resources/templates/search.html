@@ -21,7 +21,7 @@
                 <th>Дата</th>
                 <th>Инвентарный номер ПК</th>
                 <th>ФИО пользователя</th>
-                <th>Фото техкарты</th>
+                <th>PDF-файл с техкартой</th>
             </tr>
             <tr th:each="card : ${resultCards}">
                 <td th:text="${card.id}"></td>
@@ -29,7 +29,7 @@
                 <td th:text="${card.pcInventoryNumber}"></td>
                 <td th:text="${card.userFullName}"></td>
                 <td>
-                    <a th:href="@{'uploads/' + ${card.filePath}}" target="_blank">Открыть фото техкарты</a>
+                    <a th:href="@{'uploads/' + ${card.filePath}}" target="_blank">Открыть файл техкарты</a>
                 </td>
             </tr>
         </table>
