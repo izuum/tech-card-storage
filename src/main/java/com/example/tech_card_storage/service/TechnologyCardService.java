@@ -2,7 +2,7 @@ package com.example.tech_card_storage.service;
 
 import com.example.tech_card_storage.model.TechnologyCard;
 import com.example.tech_card_storage.repository.TechnologyCardRepository;
-import com.example.tech_card_storage.service.config.ImageTypeConfig;
+import com.example.tech_card_storage.service.config.CardsFileTypeConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -73,7 +73,7 @@ public class TechnologyCardService {
         try {
             Resource resource = new UrlResource("file:" + System.getProperty("user.dir") + "/uploads/" + fileName);
             return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_PNG)
+                    .contentType(MediaType.APPLICATION_PDF)
                     .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
                     .body(resource);
         } catch (MalformedURLException e) {
@@ -90,8 +90,8 @@ public class TechnologyCardService {
     }
 
     public boolean checkContentTypeOfUploadFile(MultipartFile file) {
-        if(!ImageTypeConfig.IMAGE_TYPE_LIST.contains(file.getContentType())){
-            throw new IllegalArgumentException("Разрешена загрузка ТОЛЬКО фотографий/картинок!");
+        if(!CardsFileTypeConfig.CARDS_FILE_TYPE_LIST.contains(file.getContentType())){
+            throw new IllegalArgumentException("Разрешена загрузка ТОЛЬКО PDF-файлов");
         }
         return true;
     }

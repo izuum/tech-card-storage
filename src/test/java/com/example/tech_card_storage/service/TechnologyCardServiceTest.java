@@ -49,8 +49,8 @@ public class TechnologyCardServiceTest {
 
     @Test
     public void testUploadCardValidFile() throws IOException {
-        MultipartFile validImage = new MockMultipartFile("file", "sample.jpg", "image/jpeg", "Sample Image Bytes".getBytes());
-        boolean redirectUrl = service.upload(validImage, "PC-123", "Иван Петров");
+        MultipartFile validFile = new MockMultipartFile("file", "sample.pdf", "application/pdf", "Sample Image Bytes".getBytes());
+        boolean redirectUrl = service.upload(validFile, "PC-123", "Иван Петров");
 
         assertEquals(true, redirectUrl);
     }
@@ -63,11 +63,11 @@ public class TechnologyCardServiceTest {
     }
     @Test
     public void testDownloadFile() throws MalformedURLException {
-        String filename = "sample.jpg";
+        String filename = "sample.pdf";
         Resource mockedResource = new UrlResource("file:" + System.getProperty("user.dir") + "/uploads/" + filename);
 
         ResponseEntity<Resource> expectedResponse = ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_PNG)
+                .contentType(MediaType.APPLICATION_PDF)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
                 .body(mockedResource);
 
@@ -78,18 +78,18 @@ public class TechnologyCardServiceTest {
 
     @Test
     public void testExtractFilenamePathNormalScenario() {
-        String filePath = "/upload/pic/sample.jpg";
+        String filePath = "/upload/pic/sample.pdf";
         String fileName = service.extractFilenamePath(filePath);
 
-        assertEquals("sample.jpg", fileName);
+        assertEquals("sample.pdf", fileName);
     }
 
     @Test
     public void testExtractFilenamePathWithoutSlash() {
-        String filePath = "sample.jpg";
+        String filePath = "sample.pdf";
         String fileName = service.extractFilenamePath(filePath);
 
-        assertEquals("sample.jpg", fileName);
+        assertEquals("sample.pdf", fileName);
     }
 
     @Test
@@ -109,9 +109,9 @@ public class TechnologyCardServiceTest {
 
     @Test
     public void testExtractFilenamePathMultipleSlashes() {
-        String filePath = "/upload//pic////sample.jpg";
+        String filePath = "/upload//pic////sample.pdf";
         String fileName = service.extractFilenamePath(filePath);
 
-        assertEquals("sample.jpg", fileName);
+        assertEquals("sample.pdf", fileName);
     }
 }
