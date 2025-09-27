@@ -58,7 +58,7 @@ public class TechnologyCardService {
             String fullName
     ) throws IOException {
         if (!file.isEmpty() && checkContentTypeOfUploadFile(file)) {
-            String filePath = "uploads/" + file.getOriginalFilename();
+            String filePath = System.getProperty("user.dir") + "/uploads/" + file.getOriginalFilename();
             Files.write(Paths.get(filePath), file.getBytes());
 
             TechnologyCard card = new TechnologyCard(null, null, inventoryNumber, fullName, filePath);
