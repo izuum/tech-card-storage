@@ -2,7 +2,7 @@ package com.example.tech_card_storage.service;
 
 import com.example.tech_card_storage.model.TechnologyCard;
 import com.example.tech_card_storage.repository.TechnologyCardRepository;
-import com.example.tech_card_storage.service.config.CardsFileTypeConfig;
+import com.example.tech_card_storage.service.config.CardsFileConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -57,7 +57,7 @@ public class TechnologyCardService {
             String inventoryNumber,
             String fullName
     ) throws IOException {
-        if (!file.isEmpty() && checkContentTypeOfUploadFile(file)) {
+        if (checkFile(file)) {
             String filePath = System.getProperty("user.dir") + "/uploads/" + file.getOriginalFilename();
             Files.write(Paths.get(filePath), file.getBytes());
 
@@ -90,9 +90,20 @@ public class TechnologyCardService {
     }
 
     public boolean checkContentTypeOfUploadFile(MultipartFile file) {
-        if(!CardsFileTypeConfig.CARDS_FILE_TYPE_LIST.contains(file.getContentType())){
+        if(!CardsFileConfig.CARDS_FILE_TYPE_LIST.contains(file.getContentType())){
             throw new IllegalArgumentException("Разрешена загрузка ТОЛЬКО PDF-файлов");
         }
         return true;
+    }
+
+    public boolean checkSizeOfUploadFile(MultipartFile file) {
+        if((file.getSize() > CardsFileConfig.CARDS_FILE_ALLOWED_SIZE)){
+            throw new IllegalArgumentException("Размер файла не должен превышать 20Мб!");
+        }
+        return true;
+    }
+
+    public boolean checkFile(MultipartFile file){
+        return !file.isEmpty() && checkContentTypeOfUploadFile(file) && checkSizeOfUploadFile(file);
     }
 }
